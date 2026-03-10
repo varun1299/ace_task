@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+[dev-packages]
+pytest = ">=7.4.0"
+requests = ">=2.31.0"
+python-dotenv = ">=1.0.0"
+ruff = ">=0.8.0"
+
+[scripts]
+fmt = "ruff format . --exclude migrations"
+checkfmt = "ruff format --check --diff . --exclude migrations"
+
+[requires]
+python_version = "3.13"

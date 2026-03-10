@@ -1,0 +1,18 @@
+# Local env (do not commit secrets)
+.env
+
+# Python
+__pycache__/
+.venv/
+venv/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/

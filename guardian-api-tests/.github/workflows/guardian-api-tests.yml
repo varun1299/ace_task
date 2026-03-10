@@ -1,0 +1,60 @@
+# Example GitHub Actions workflow for Guardian API tests.
+# Ensure Guardian API is running (e.g. start Docker stack in a prior step) and set GUARDIAN_API_BASE_URL.
+
+name: Guardian API Tests
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'guardian-api-tests/**'
+      - '.github/workflows/guardian-api-tests.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'guardian-api-tests/**'
+
+env:
+  GUARDIAN_API_BASE_URL: ${{ vars.GUARDIAN_API_BASE_URL || 'http://localhost:5000' }}
+
+jobs:
+  csharp-tests:
+    name: C# Guardian API tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore guardian-api-tests/src/GuardianApiTests/GuardianApiTests.csproj
+
+      - name: Build
+        run: dotnet build guardian-api-tests/src/GuardianApiTests/GuardianApiTests.csproj --no-restore
+
+      - name: Run Guardian API tests
+        run: dotnet test guardian-api-tests/src/GuardianApiTests/GuardianApiTests.csproj --no-build -v normal --logger "github-actions"
+
+  python-tests:
+    name: Python Guardian API tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd guardian-api-tests
+          pip install -r requirements-dev.txt
+
+      - name: Run Guardian API tests
+        run: pytest guardian-api-tests/tests/test_guardian_validate.py -v
+        env:
+          GUARDIAN_API_BASE_URL: ${{ env.GUARDIAN_API_BASE_URL }}

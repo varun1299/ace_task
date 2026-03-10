@@ -1,0 +1,22 @@
+# ACE Guardian API tests - Prerequisites and Python dependencies
+#
+# --- C# tests: .NET 8 SDK (install one of the following) ---
+#
+# macOS (Homebrew):
+#   brew install dotnet@8
+#
+# Windows (winget):
+#   winget install Microsoft.DotNet.SDK.8
+#
+# Linux (Ubuntu/Debian):
+#   wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+#   sudo dpkg -i /tmp/packages-microsoft-prod.deb
+#   sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+#
+# Or download installer: https://dotnet.microsoft.com/download/dotnet/8.0
+#
+# --- Python dependencies (pip install -r requirements-dev.txt) ---
+pytest>=7.4.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+ruff>=0.8.0
